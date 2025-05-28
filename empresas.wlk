@@ -49,6 +49,23 @@ class Empresa {
   method cuantosClientesTiene() = clientes.size()
   
   method seEncuentraElCliente(cliente) = clientes.contains(cliente)
+  
+  method profesionalCobraMenosQue(unValor) = profesionales.any(
+    { p => p.honorariosPorHora() < unValor }
+  )
+  
+  method esPocoAtractivo(
+    unProfesional
+  ) = unProfesional.provinciasDondePuedeTrabajar().all(
+    { provincia => self.existeOtroProfesionalMasBaratoQueCubra(
+        provincia,
+        unProfesional
+      ) }
+  )
+  
+  method existeOtroProfesionalMasBaratoQueCubra(provincia,unProfesional) = 
+  profesionales.any({ p => p.provinciasDondePuedeTrabajar().contains(provincia) 
+    && (p.honorariosPorHora() < unProfesional.honorariosPorHora()) })
 }
 
 object asociacionProfesionalesDelLitoral {
